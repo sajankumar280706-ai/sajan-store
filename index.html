@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>SAJAN GUILD GLORY BOT | Premium Token Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 25% 30%, #0a0804, #030201);
+            background-attachment: fixed;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* golden animated glow */
+        .glow-pulse {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255, 215, 0, 0.12) 0%, transparent 70%);
+            animation: goldenBreathing 8s infinite alternate;
+            z-index: 0;
+        }
+
+        @keyframes goldenBreathing {
+            0% { opacity: 0.2; }
+            100% { opacity: 0.8; }
+        }
+
+        /* floating animation for cards */
+        @keyframes floatGlow {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-5px); }
+        }
+
+        .glass-card {
+            background: rgba(10, 8, 6, 0.85);
+            backdrop-filter: blur(14px);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 215, 0, 0.6);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 210, 0, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 220, 80, 0.8);
+            box-shadow: 0 30px 50px -15px black;
+        }
+
+        .glass-panel {
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 200, 70, 0.5);
+            transition: all 0.2s;
+        }
+
+        .btn-glow {
+            background: linear-gradient(95deg, #e6c344, #c9911e);
+            border: none;
+            color: #0a0804;
+            font-weight: 800;
+            padding: 0.7rem 1.8rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 0 12px rgba(230, 195, 68, 0.6);
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(95deg, #ffdd66, #dba520);
+            box-shadow: 0 0 22px #ffd966;
+            color: black;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #e6c344;
+            color: #ffffff;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-outline:hover {
+            background: #e6c34430;
+            border-color: #ffea9e;
+            color: #fff5e0;
+        }
+
+        .input-dark {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #e6c344aa;
+            border-radius: 1.2rem;
+            padding: 0.7rem 1rem;
+            color: white;
+            width: 100%;
+            outline: none;
+        }
+
+        .input-dark:focus {
+            border-color: #ffdf80;
+            box-shadow: 0 0 0 2px rgba(230, 195, 68, 0.4);
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 1.2rem;
+            margin: 6px 0;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #f0e6d2;
+        }
+
+        .sidebar-item.active, .sidebar-item:hover {
+            background: #e6c34430;
+            color: #ffefb9;
+            border-left: 3px solid #ffd966;
+        }
+
+        .token-badge {
+            background: #1f1b10;
+            border-radius: 2rem;
+            padding: 0.3rem 1.2rem;
+            font-weight: bold;
+            border: 1px solid #e6c344;
+            color: #fff0c0;
+        }
+
+        .stat-card {
+            background: #0e0c08;
+            border-radius: 1.2rem;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #e6c34460;
+            transition: all 0.25s;
+            color: white;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.02);
+            border-color: #ffdf80;
+            box-shadow: 0 0 12px rgba(230,195,68,0.3);
+        }
+
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-content {
+            animation: fadeSlide 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+
+        .qr-mock {
+            background: #0f0d08;
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #e6c344;
+        }
+        .bot-avatar {
+            display: inline-flex;
+            background: linear-gradient(145deg, #1f1b12, #0a0804);
+            border-radius: 3rem;
+            padding: 0.8rem 1.8rem;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid #ffd966;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        /* white text for readability */
+        p, label, h3, h4, .stat-card p, .glass-panel, .sidebar-item, .token-badge, .qr-mock p, .qr-mock strong {
+            color: #ffffff;
+        }
+        .stat-card h3, .glass-panel h3, .glass-card h2 {
+            color: #ffecb3;
+        }
+        small {
+            color: #d4c4a0;
+        }
+        hr {
+            border-color: #e6c34440;
+        }
+        .region-flag {
+            margin-right: 6px;
+        }
+        /* Custom scroll */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1e1a10; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #e6c344; border-radius: 10px; }
+    </style>
+</head>
+<body>
+<div class="glow-pulse" id="glowEffect"></div>
+<div id="appRoot" style="position: relative; z-index: 2; max-width: 1400px; margin: 0 auto;"></div>
+
+<script>
+    // ---------- STORAGE KEYS ----------
+    const STORAGE_USERS = "sajan_guild_users";
+    const STORAGE_CURRENT_USER = "sajan_current_user";
+    const STORAGE_TOKENS = "sajan_tokens";
+    const STORAGE_GROUPS = "sajan_groups";
+    const STORAGE_TRANSACTIONS = "sajan_transactions";
+    const STORAGE_ACTIVITY = "sajan_activity";
+
+    function getCurrentUser() { return localStorage.getItem(STORAGE_CURRENT_USER); }
+    function setCurrentUser(username) { if (username) localStorage.setItem(STORAGE_CURRENT_USER, username); else localStorage.removeItem(STORAGE_CURRENT_USER); }
+    function getUsers() { let raw = localStorage.getItem(STORAGE_USERS); return raw ? JSON.parse(raw) : {}; }
+    function saveUsers(users) { localStorage.setItem(STORAGE_USERS, JSON.stringify(users)); }
+
+    function getUserTokens(username) { let key = STORAGE_TOKENS + "_" + username; let val = localStorage.getItem(key); return val ? parseInt(val) : 0; }
+    function setUserTokens(username, amount) { localStorage.setItem(STORAGE_TOKENS + "_" + username, amount.toString()); }
+    function addTokens(username, tokens) { setUserTokens(username, getUserTokens(username) + tokens); }
+    function deductToken(username) { let curr = getUserTokens(username); if (curr >= 1) { setUserTokens(username, curr - 1); return true; } return false; }
+
+    function getUserGroups(username) { let raw = localStorage.getItem(STORAGE_GROUPS + "_" + username); return raw ? JSON.parse(raw) : []; }
+    function saveUserGroups(username, groups) { localStorage.setItem(STORAGE_GROUPS + "_" + username, JSON.stringify(groups)); }
+    function addGroup(username, clanId, region) {
+        let groups = getUserGroups(username);
+        groups.push({ clanId, region, createdAt: new Date().toISOString() });
+        saveUserGroups(username, groups);
+        addActivityLog(username, `🚀 Group launched: ${clanId} (${region})`, "success");
+        return true;
+    }
+
+    function getActivityLog(username) { let raw = localStorage.getItem(STORAGE_ACTIVITY + "_" + username); return raw ? JSON.parse(raw) : []; }
+    function addActivityLog(username, message, type = "info") {
+        let logs = getActivityLog(username);
+        logs.unshift({ message, type, timestamp: new Date().toLocaleString() });
+        if (logs.length > 50) logs.pop();
+        localStorage.setItem(STORAGE_ACTIVITY + "_" + username, JSON.stringify(logs));
+    }
+
+    function getUserTransactions(username) { let raw = localStorage.getItem(STORAGE_TRANSACTIONS + "_" + username); return raw ? JSON.parse(raw) : []; }
+    function addTransaction(username, utr, whatsapp, name, tokensAdded, amountPaid) {
+        let txns = getUserTransactions(username);
+        txns.unshift({ utr, whatsapp, name, tokensAdded, amountPaid, date: new Date().toLocaleString() });
+        localStorage.setItem(STORAGE_TRANSACTIONS + "_" + username, JSON.stringify(txns));
+        addActivityLog(username, `💰 Purchased ${tokensAdded} tokens (₹${amountPaid}) - UTR: ${utr}`, "success");
+    }
+
+    let currentView = "home";
+
+    function renderApp() {
+        const currentUser = getCurrentUser();
+        if (!currentUser) {
+            document.getElementById("appRoot").innerHTML = renderLoginPage();
+            attachLoginEvents();
+            return;
+        }
+        const tokenBalance = getUserTokens(currentUser);
+        const groups = getUserGroups(currentUser);
+        const transactions = getUserTransactions(currentUser);
+        const activity = getActivityLog(currentUser);
+        document.getElementById("appRoot").innerHTML = renderDashboard(currentUser, tokenBalance, groups, transactions, activity);
+        attachDashboardEvents(currentUser, tokenBalance, groups, transactions, activity);
+    }
+
+    // ---------- LOGIN PAGE ----------
+    function renderLoginPage() {
+        return `
+            <div class="glass-card" style="max-width: 480px; margin: 5vh auto; padding: 2rem; text-align: center;">
+                <div style="margin-bottom: 1rem;">
+                    <i class="fas fa-robot" style="font-size: 3rem; color: #ffd966;"></i>
+                    <h1 style="font-weight: 800; font-size: 1.9rem; background: linear-gradient(135deg,#fff5e0,#e6c344); -webkit-background-clip:text; background-clip:text; color:transparent;">SAJAN GUILD GLORY BOT</h1>
+                    <p style="color:#f5e2b0;">PREMIUM TOKEN PANEL</p>
+                </div>
+                <div style="display: flex; gap: 16px; justify-content: center; margin: 20px 0;">
+                    <button id="showSignInBtn" class="btn-glow" style="padding: 0.4rem 1.8rem;">SIGN IN</button>
+                    <button id="showSignUpBtn" class="btn-outline">SIGN UP</button>
+                </div>
+                <div id="loginFormContainer"><div id="signinForm"><div style="margin-bottom:1rem;"><input type="text" id="signinUsername" class="input-dark" placeholder="Username"></div><div style="margin-bottom:1.5rem;"><input type="password" id="signinPassword" class="input-dark" placeholder="Password"></div><button id="doSignInBtn" class="btn-glow" style="width:100%;"><i class="fas fa-arrow-right"></i> SIGN IN →</button></div></div>
+                <p style="color:#f5dc9a; font-size:0.7rem; margin-top: 1.5rem;">⚡ UPI: rajanbhai8989@fam | 1 TOKEN = ₹199</p>
+            </div>
+        `;
+    }
+
+    function attachLoginEvents() {
+        const showSignIn = document.getElementById("showSignInBtn");
+        const showSignUp = document.getElementById("showSignUpBtn");
+        const container = document.getElementById("loginFormContainer");
+        function renderSignIn() { container.innerHTML = `<div id="signinForm"><div style="margin-bottom:1rem;"><input type="text" id="signinUsername" class="input-dark" placeholder="Username"></div><div style="margin-bottom:1.5rem;"><input type="password" id="signinPassword" class="input-dark" placeholder="Password"></div><button id="doSignInBtn" class="btn-glow" style="width:100%;"><i class="fas fa-arrow-right"></i> SIGN IN →</button></div>`; document.getElementById("doSignInBtn")?.addEventListener("click", handleSignIn); }
+        function renderSignUp() { container.innerHTML = `<div id="signupForm"><div style="margin-bottom:1rem;"><input type="text" id="signupUsername" class="input-dark" placeholder="Create Username"></div><div style="margin-bottom:1rem;"><input type="password" id="signupPassword" class="input-dark" placeholder="Password"></div><div style="margin-bottom:1.5rem;"><input type="password" id="signupConfirm" class="input-dark" placeholder="Confirm Password"></div><button id="doSignUpBtn" class="btn-glow" style="width:100%;"><i class="fas fa-user-plus"></i> SIGN UP</button></div>`; document.getElementById("doSignUpBtn")?.addEventListener("click", handleSignUp); }
+        function handleSignIn() { const username = document.getElementById("signinUsername")?.value.trim(); const pwd = document.getElementById("signinPassword")?.value; const users = getUsers(); if (users[username] && users[username] === pwd) { setCurrentUser(username); renderApp(); showToast(`Welcome back, ${username}!`, "success"); } else showToast("Invalid credentials", "error"); }
+        function handleSignUp() { const username = document.getElementById("signupUsername")?.value.trim(); const pwd = document.getElementById("signupPassword")?.value; const confirm = document.getElementById("signupConfirm")?.value; if (!username || !pwd) { showToast("Fill all fields", "error"); return; } if (pwd !== confirm) { showToast("Passwords do not match", "error"); return; } const users = getUsers(); if (users[username]) { showToast("Username taken", "error"); return; } users[username] = pwd; saveUsers(users); setUserTokens(username, 0); saveUserGroups(username, []); localStorage.setItem(STORAGE_TRANSACTIONS + "_" + username, JSON.stringify([])); localStorage.setItem(STORAGE_ACTIVITY + "_" + username, JSON.stringify([])); setCurrentUser(username); renderApp(); showToast("Account created! You are now logged in.", "success"); }
+        if (showSignIn) showSignIn.addEventListener("click", renderSignIn);
+        if (showSignUp) showSignUp.addEventListener("click", renderSignUp);
+        renderSignIn();
+    }
+
+    // ---------- DASHBOARD ----------
+    function renderDashboard(username, tokens, groups, transactions, activity) {
+        const totalLaunched = groups.length;
+        const successCount = groups.length;
+        return `
+            <div class="animate-content" style="display: flex; flex-wrap: wrap; gap: 24px;">
+                <div class="glass-card" style="flex: 0.3; min-width: 220px; padding: 1.5rem 1rem;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 2rem;">
+                        <i class="fas fa-crown" style="color:#ffd966; font-size: 1.8rem;"></i>
+                        <span style="font-weight: 800; font-size: 1.1rem; color:white;">SAJAN GLORY</span>
+                    </div>
+                    <div class="sidebar-item ${currentView === 'home' ? 'active' : ''}" data-view="home"><i class="fas fa-home"></i> <span>Home</span></div>
+                    <div class="sidebar-item ${currentView === 'payments' ? 'active' : ''}" data-view="payments"><i class="fas fa-credit-card"></i> <span>Payments</span></div>
+                    <div class="sidebar-item ${currentView === 'transactions' ? 'active' : ''}" data-view="transactions"><i class="fas fa-exchange-alt"></i> <span>Transactions</span></div>
+                    <div class="sidebar-item ${currentView === 'history' ? 'active' : ''}" data-view="history"><i class="fas fa-clock"></i> <span>History</span></div>
+                    <div class="sidebar-item ${currentView === 'account' ? 'active' : ''}" data-view="account"><i class="fas fa-user-circle"></i> <span>Account</span></div>
+                    <hr style="border-color:#e6c34460; margin: 20px 0;">
+                    <div class="token-badge" style="text-align:center;"><i class="fas fa-coins"></i> ${tokens} TOKENS</div>
+                    <button id="logoutMainBtn" class="btn-outline" style="width:100%; margin-top: 1rem;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+                <div class="glass-card" style="flex: 1; padding: 1.8rem;">
+                    ${renderMainContent(currentView, tokens, groups, transactions, activity, username, totalLaunched, successCount)}
+                </div>
+            </div>
+        `;
+    }
+
+    function renderMainContent(view, tokens, groups, transactions, activity, username, totalLaunched, successCount) {
+        if (view === "home") {
+            return `
+                <div>
+                    <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+                        <div class="bot-avatar">
+                            <i class="fas fa-robot" style="font-size: 2.5rem; color:#ffd966;"></i>
+                            <span style="font-weight:700;">GLORY BOT v2.0</span>
+                            <i class="fas fa-bolt" style="color:#ffaa33;"></i>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 15px; margin-bottom: 2rem;">
+                        <div class="stat-card"><i class="fas fa-rocket"></i><h3>TOTAL LAUNCHED</h3><p style="font-size:2rem; font-weight:800;">${totalLaunched}</p></div>
+                        <div class="stat-card"><i class="fas fa-hourglass-half"></i><h3>WAITLIST</h3><p style="font-size:2rem;">0</p></div>
+                        <div class="stat-card"><i class="fas fa-check-circle"></i><h3>SUCCESS</h3><p style="font-size:2rem; color:#ffd966;">${successCount}</p></div>
+                        <div class="stat-card"><i class="fas fa-times-circle"></i><h3>FAILURE</h3><p style="font-size:2rem;">0</p></div>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 2rem;">
+                        <div class="glass-panel" style="flex:1; padding:1.5rem;">
+                            <h3><i class="fas fa-shopping-cart"></i> BUY TOKENS</h3>
+                            <p>RATE: <strong>₹199 / TOKEN</strong></p>
+                            <div style="margin:15px 0;"><label>Quantity (1-20)</label><input type="number" id="homeTokenQty" min="1" max="20" value="1" class="input-dark" style="width:100px;"><div style="margin-top:10px;"><strong>Total: ₹<span id="homeTotal">199</span></strong></div>
+                            <button id="openTopupModalBtn" class="btn-glow" style="margin-top:15px; width:100%;"><i class="fas fa-arrow-up"></i> TOP UP / BUY TOKENS</button></div>
+                            <div class="qr-mock">
+                                <i class="fas fa-qrcode" style="font-size:2rem;"></i>
+                                <p>UPI ID: <strong>rajanbhai8989@fam</strong> <button id="copyUpiHome" class="btn-outline" style="padding:0.2rem 0.6rem;"><i class="far fa-copy"></i></button></p>
+                                <!-- Real QR Code for UPI -->
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=upi://pay?pa=rajanbhai8989@fam&pn=SAJAN_STORE&am=0&cu=INR" alt="QR Code" style="width:100px; margin-top:8px; background:white; padding:5px; border-radius:12px;">
+                            </div>
+                        </div>
+                        <div class="glass-panel" style="flex:1; padding:1.5rem;">
+                            <h3><i class="fas fa-globe"></i> NEW GROUP</h3>
+                            <div style="background:#1f1a10; border-radius:1rem; padding:0.5rem; margin:10px 0; text-align:center;">🤖 Bot delivers 50000+ Glory per group <span style="color:#ffd966;">● ACTIVE</span></div>
+                            <div><label>REGION</label>
+                                <select id="regionSelect" class="input-dark">
+                                    <option value="India 🇮🇳">🇮🇳 India</option>
+                                    <option value="Bangladesh 🇧🇩">🇧🇩 Bangladesh</option>
+                                    <option value="Russia 🇷🇺">🇷🇺 Russia</option>
+                                    <option value="Pakistan 🇵🇰">🇵🇰 Pakistan</option>
+                                    <option value="Other 🌍">🌍 Other</option>
+                                </select>
+                            </div>
+                            <div style="margin:10px 0;"><label>COST: 1 TOKEN</label></div>
+                            <div><label>CLAN ID</label><input type="text" id="clanIdInput" class="input-dark" placeholder="g. 123456789"></div>
+                            <button id="createGroupBtn" class="btn-glow" style="width:100%; margin-top:15px;"><i class="fas fa-play"></i> START BOT</button>
+                        </div>
+                    </div>
+                    <div class="glass-panel" style="padding:1.2rem;">
+                        <h4><i class="fas fa-list"></i> ACTIVITY LOG · REAL-TIME DEPLOYMENT SYNC</h4>
+                        <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                            ${activity.length === 0 ? '<p style="color:#e6d5b0;">✨ No history found. Start your first group launch!</p>' : activity.map(log => `<div style="background:#1e1b14; border-radius:0.8rem; padding:0.5rem; margin-bottom:6px; border-left:3px solid ${log.type === 'success' ? '#ffd966' : '#ffaa33'}"><small>${log.timestamp}</small> ${log.message}</div>`).join('')}
+                        </div>
+                        <p style="font-size:0.7rem; margin-top:10px;"><i class="fas fa-sync-alt"></i> Status updates are pushed via Real-time Pulse. <span style="color:#ffd966;">SYNC STATUS: ONLINE</span></p>
+                    </div>
+                    <div class="glass-panel" style="margin-top:20px; padding:0.8rem; text-align:center; background:#15100a;">
+                        <i class="fas fa-server"></i> <strong>USER CREDIT BUY INFO SERVER</strong> | UPI: rajanbhai8989@fam | Support 24/7
+                    </div>
+                </div>
+            `;
+        }
+        else if (view === "payments") {
+            return `<div><h3><i class="fas fa-credit-card"></i> COMPLETE PAYMENT</h3>
+            <div class="qr-mock" style="margin:20px 0;">
+                <i class="fas fa-qrcode" style="font-size:3rem;"></i>
+                <p><strong>SCAN TO TRANSFER VIA UPI</strong><br>UPI: rajanbhai8989@fam</p>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=upi://pay?pa=rajanbhai8989@fam&pn=SAJAN_STORE&am=0&cu=INR" alt="QR" style="width:110px; background:white; padding:6px; border-radius:16px; margin:8px 0;">
+                <br><button id="copyUpiPayment" class="btn-outline">COPY UPI ID</button><button id="viewQrMock" class="btn-outline" style="margin-left:10px;">VIEW/DOWNLOAD QR</button>
+            </div>
+            <div style="background:#12100c; border-radius:1.5rem; padding:1rem;">
+                <label>TOKENS QUANTITY</label><input type="number" id="payQty" min="1" max="20" value="1" class="input-dark">
+                <label style="margin-top:10px;">PAYABLE AMOUNT</label><input type="text" id="payAmountDisplay" readonly class="input-dark" value="₹199">
+                <label style="margin-top:10px;">DISCOUNT CODE</label><input type="text" id="discountCode" class="input-dark" placeholder="ENTER DISCOUNT CODE (optional)">
+                <label style="margin-top:10px;">ENTER UTR NUMBER</label><input type="text" id="payUtr" class="input-dark" placeholder="Enter UTR Number">
+                <p style="font-size:0.7rem; color:#f5dc9a;">Note: FamPay users can enter their Transaction ID here.</p>
+                <label>📱 WhatsApp Number</label><input type="tel" id="payWhatsapp" class="input-dark">
+                <label>👤 Full Name</label><input type="text" id="payName" class="input-dark">
+                <button id="submitPaymentBtn" class="btn-glow" style="width:100%; margin-top:15px;">VERIFY & ADD TOKENS</button>
+            </div></div>`;
+        }
+        else if (view === "transactions") {
+            return `<div><h3><i class="fas fa-history"></i> RECENT TRANSACTIONS</h3>${transactions.length === 0 ? '<div class="glass-panel" style="padding:2rem; text-align:center; color:white;"><i class="fas fa-ban"></i> NO FIND HISTORY</div>' : transactions.map(t => `<div class="glass-panel" style="margin:10px 0; padding:0.8rem;"><div>📆 ${t.date}</div><div>💰 ${t.tokensAdded} Tokens | ₹${t.amountPaid}</div><div>👤 ${t.name} | UTR: ${t.utr}</div><div>📞 ${t.whatsapp}</div></div>`).join('')}</div>`;
+        }
+        else if (view === "history") {
+            return `<div><h3><i class="fas fa-folder-open"></i> GROUP HISTORY</h3>${groups.length === 0 ? '<div class="glass-panel" style="padding:2rem; text-align:center; color:white;"><i class="fas fa-search"></i> NO FIND HISTORY</div>' : groups.map(g => `<div class="glass-panel" style="margin:10px 0; padding:0.8rem;">🏆 Clan: ${g.clanId} | Region: ${g.region} | Created: ${new Date(g.createdAt).toLocaleString()}</div>`).join('')}</div>`;
+        }
+        else if (view === "account") {
+            return `<div><h3><i class="fas fa-user-cog"></i> ACCOUNT INFO</h3><div class="glass-panel" style="padding:1rem;"><p><strong>Username:</strong> ${username}</p><p><strong>Token Balance:</strong> ${tokens} TOKENS</p><p><strong>Total Groups:</strong> ${groups.length}</p><div style="margin-top:15px;"><label>CURRENT PASSWORD</label><input type="password" id="currentPass" class="input-dark" placeholder="Enter current password"><label style="margin-top:10px;">NEW PASSWORD</label><input type="password" id="newPass" class="input-dark" placeholder="Min 6 characters"><label style="margin-top:10px;">CONFIRM NEW PASSWORD</label><input type="password" id="confirmPass" class="input-dark" placeholder="Re-enter new password"><button id="updatePassBtn" class="btn-glow" style="margin-top:15px;">Update Password</button></div><hr style="margin:20px 0;"><div><i class="fas fa-globe"></i> CREATE YOUR OWN WEBSITE<br><small>Professional website maker available. Contact us to start your own business today.</small><br><a href="#" id="telegramLink" style="color:#ffd966;">📱 TAP TO CHAT ON TELEGRAM</a></div><button id="resetDemoBtn" class="btn-outline" style="margin-top:20px;">SIGN OUT OF ACCOUNT</button></div></div>`;
+        }
+        return "";
+    }
+
+    function attachDashboardEvents(username, tokens, groups, transactions, activity) {
+        document.querySelectorAll(".sidebar-item").forEach(el => { el.addEventListener("click", () => { currentView = el.getAttribute("data-view"); renderApp(); }); });
+        document.getElementById("logoutMainBtn")?.addEventListener("click", () => { setCurrentUser(null); renderApp(); showToast("Logged out", "info"); });
+        const copyFn = () => { navigator.clipboard.writeText("rajanbhai8989@fam"); showToast("UPI ID Copied", "success"); };
+        document.getElementById("copyUpiHome")?.addEventListener("click", copyFn);
+        document.getElementById("copyUpiPayment")?.addEventListener("click", copyFn);
+        document.getElementById("viewQrMock")?.addEventListener("click", () => showToast("QR Code: rajanbhai8989@fam (Saved)", "info"));
+        
+        const homeQty = document.getElementById("homeTokenQty");
+        const homeTotal = document.getElementById("homeTotal");
+        if (homeQty) homeQty.addEventListener("input", () => { let q = parseInt(homeQty.value) || 1; homeTotal.innerText = q * 199; });
+        document.getElementById("openTopupModalBtn")?.addEventListener("click", () => { currentView = "payments"; renderApp(); });
+        
+        const createBtn = document.getElementById("createGroupBtn");
+        if (createBtn) {
+            createBtn.addEventListener("click", () => {
+                let clanId = document.getElementById("clanIdInput")?.value.trim();
+                let region = document.getElementById("regionSelect")?.value || "India 🇮🇳";
+                if (!clanId) { showToast("Enter Clan ID", "error"); return; }
+                let currTokens = getUserTokens(username);
+                if (currTokens < 1) { showToast("Insufficient tokens! Please buy tokens.", "error"); return; }
+                if (deductToken(username)) { addGroup(username, clanId, region); showToast(`Group ${clanId} launched in ${region}! -1 token`, "success"); renderApp(); } else showToast("Failed", "error");
+            });
+        }
+
+        const submitPay = document.getElementById("submitPaymentBtn");
+        if (submitPay) {
+            const payQty = document.getElementById("payQty");
+            const payAmountDisplay = document.getElementById("payAmountDisplay");
+            if (payQty) payQty.addEventListener("input", () => { let q = parseInt(payQty.value) || 1; payAmountDisplay.value = "₹" + (q * 199); });
+            submitPay.addEventListener("click", () => {
+                const whatsapp = document.getElementById("payWhatsapp")?.value.trim();
+                const name = document.getElementById("payName")?.value.trim();
+                const utr = document.getElementById("payUtr")?.value.trim();
+                let qty = parseInt(document.getElementById("payQty")?.value) || 1;
+                if (!whatsapp || !name || !utr) { showToast("WhatsApp, Name, UTR required", "error"); return; }
+                if (!/^\d{10,13}$/.test(whatsapp.replace(/\D/g, ''))) { showToast("Invalid WhatsApp number", "error"); return; }
+                let totalCost = qty * 199;
+                addTokens(username, qty);
+                addTransaction(username, utr, whatsapp, name, qty, totalCost);
+                showToast(`✅ +${qty} Tokens added!`, "success");
+                document.getElementById("payWhatsapp").value = "";
+                document.getElementById("payName").value = "";
+                document.getElementById("payUtr").value = "";
+                if (payQty) payQty.value = 1;
+                if (payAmountDisplay) payAmountDisplay.value = "₹199";
+                renderApp();
+            });
+        }
+
+        const updatePass = document.getElementById("updatePassBtn");
+        if (updatePass) {
+            updatePass.addEventListener("click", () => {
+                const current = document.getElementById("currentPass")?.value;
+                const newPwd = document.getElementById("newPass")?.value;
+                const confirmPwd = document.getElementById("confirmPass")?.value;
+                const users = getUsers();
+                if (users[username] !== current) { showToast("Current password incorrect", "error"); return; }
+                if (newPwd.length < 4) { showToast("New password min 4 chars", "error"); return; }
+                if (newPwd !== confirmPwd) { showToast("New passwords do not match", "error"); return; }
+                users[username] = newPwd;
+                saveUsers(users);
+                showToast("Password updated successfully", "success");
+                document.getElementById("currentPass").value = "";
+                document.getElementById("newPass").value = "";
+                document.getElementById("confirmPass").value = "";
+            });
+        }
+        const resetBtn = document.getElementById("resetDemoBtn");
+        if (resetBtn) resetBtn.addEventListener("click", () => { if (confirm("Sign out of account?")) { setCurrentUser(null); renderApp(); showToast("Logged out", "info"); } });
+        const telegram = document.getElementById("telegramLink");
+        if (telegram) telegram.addEventListener("click", (e) => { e.preventDefault(); showToast("Contact @sajan_support (Telegram)", "info"); });
+    }
+
+    function showToast(msg, type) {
+        let toastDiv = document.getElementById("dynamicToast");
+        if (!toastDiv) { let d = document.createElement("div"); d.id = "dynamicToast"; d.style.position = "fixed"; d.style.bottom = "20px"; d.style.right = "20px"; d.style.zIndex = "9999"; document.body.appendChild(d); toastDiv = d; }
+        const toast = document.createElement("div"); toast.className = "glass-card"; toast.style.padding = "10px 18px"; toast.style.background = type === "error" ? "#5a2a1ae0" : "#2a2418e0"; toast.style.borderLeft = `4px solid ${type === "success" ? "#ffd966" : "#ffaa33"}`; toast.style.color = "#ffffff"; toast.innerText = msg; toastDiv.appendChild(toast);
+        setTimeout(() => { toast.style.opacity = "0"; setTimeout(() => toast.remove(), 300); }, 2600);
+    }
+
+    window.addEventListener("DOMContentLoaded", renderApp);
+    document.body.addEventListener("mousemove", (e) => { const glow = document.getElementById("glowEffect"); if (glow) { glow.style.setProperty('--x', e.clientX + 'px'); glow.style.setProperty('--y', e.clientY + 'px'); } });
+</script>
+</body>
+  </html>
